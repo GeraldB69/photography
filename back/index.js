@@ -5,15 +5,19 @@ const bodyParser = require('body-parser');
 const app = express();
 const config = require('./helpers/config.js');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const _ = require('lodash');
 // const passport = require('passport');
 // const authRouter = require('./auth/auth');
 
 
 // Configuration de l'application
+app.use(fileUpload({
+  createParentPath: true
+}));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use('/auth', authRouter);
 
 // Traitement du token
 function verifyToken(req, res, next) {
@@ -61,19 +65,56 @@ app.post('/login', (req, res) => {
   })
 })
 
+app.post('/upload', async (req, res) => {
+  console.log(req.files)
+  const picture = req.files.file;
+  try {
+    if (!req.files) {
+      res.send({
+        status: false,
+        message: 'No file uploaded'
+      }); 
+    } else {
+      picture.mv('./uploads/' + picture.name);
+      const sql = 'INSERT INTO photos (name) VALUES (?)';
+      config.connection.query(sql, picture.name, (error, results) => {
+        if (error) {
+          res.status(500).send(error);
+        } else {
+          res.send({
+            status: true,
+            message: 'File is uploaded',
+            data: {
+              name: picture.name,
+              // type: picture.mimetype,
+              // size: picture.size
+            }
+          })
+        }
+      })
+    }
+  } catch (err) {
+    console.log('catch')
+    res.status(500).send(err);
+  }
+});
+
 // Vérification des droits d'accès
-app.post('/api/post', verifyToken, (req, res) => {
+app.post('/upload_test', verifyToken, (req, res) => {
   jwt.verify(req.token, config.secret, (err, authData) => {
     if (err) {
       res.status(401).send()
     } else {
+      sql = '';
       res.json({
         message: 'OK',
-        authData
+        //authData
       })
     }
   })
 })
+
+
 
 
 // GET

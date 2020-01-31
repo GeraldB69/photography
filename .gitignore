@@ -1,4 +1,8 @@
+# BACK
 back/node_modules/
-front/node_modules/
+back/uploads/
 back/helpers/config.js
+
+# FRONT
+front/node_modules/
 front/helpers/config.js

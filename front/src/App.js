@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
 import Home from './components/Home';
 import Gallery from './components/Gallery';
-import Login from './components/Login';
 import server from './helpers/config';
 import './App.css';
 
@@ -19,14 +18,14 @@ class App extends Component {
     }
   }
 
-  handleChange = (event) => {
+  handleChange = e => {
     this.setState({
-      [event.target.id]: event.target.value
+      [e.target.id]: e.target.value
     });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
     console.log("name:", this.state.name)
     axios.post(`${server.server}/login`, { 
       name: this.state.name,
