@@ -1,12 +1,13 @@
 // Déclaration des librairies nécessaires
 const express = require('express');
+const app = express();
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
-const app = express();
-const config = require('./helpers/config.js');
 const cors = require('cors');
+const path = require('path'); 
 const fileUpload = require('express-fileupload');
 const _ = require('lodash');
+const config = require('./helpers/config.js');
 // const passport = require('passport');
 // const authRouter = require('./auth/auth');
 
@@ -34,18 +35,34 @@ function verifyToken(req, res, next) {
 
 // Test de l'api
 app.get("/", (req, res) => {
+  console.log(path.join(__dirname, 'public'))
   res.send("OK !");
 });
+
+// Affichage d'un fichier
+app.get("/uploads/:file", function (req, res) {
+  const file = req.params.file
+  res.sendFile(`${__dirname}/uploads/${file}`);
+});
+
+// 
+app.get("/gallery", (req, res) => {
+  const sql = 'SELECT * FROM photos';
+  config.connection.query(sql, (error, response) => {
+    if (error) console.log(error)
+    else res.status(200).send(response)
+  })
+})
 
 // Identification 
 app.post('/login', (req, res) => {
   console.log("body", req.body)
   const sql = 
-    'SELECT id, username ' + 
+  'SELECT id, username ' + 
     'FROM users ' + 
     'WHERE username = ? ' +
     'AND password = ?';
-  config.connection.query(sql, [req.body.name, req.body.password], (error, response) => {
+    config.connection.query(sql, [req.body.name, req.body.password], (error, response) => {
     if (error) console.log(error)
     else if (response.length !== 0) {
       // Générer token 
@@ -125,8 +142,8 @@ app.get("/photos", (req, res) => {
   config.connection.query(sql, (error, response) => {
     if (error) res.sendStatus(500);
     else
-      console.log(response)
-      res.status(200).json(response)
+    console.log(response)
+    res.status(200).json(response)
   })
 })
 

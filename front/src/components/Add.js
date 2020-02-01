@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { MDBBtn, MDBModal, MDBModalHeader, MDBModalBody, MDBInput, MDBModalFooter } from 'mdbreact';
+import { MDBBtn, MDBModal, MDBModalHeader, MDBModalBody } from 'mdbreact';
 import server from '../helpers/config';
 
 
@@ -57,20 +57,31 @@ class Add extends Component {
     });
   }
 
-  button =
-    <>
-      <MDBBtn className="float-right" color="primary" onClick={() => this.toggle()}>Add</MDBBtn>
-    </>;
+
   
   componentDidMount() {
     const token = localStorage.getItem('token');
     const username = token ? localStorage.getItem('name') : '';
-    if (token) this.setState({ username, token });
+    if (token) this.setState({ name: username, token });
   }
+
   render() {
+  
+    let button = '';
+    if (this.state.name && this.state.token) {
+      button =
+        <MDBBtn 
+          className="float-right" 
+          color="primary" 
+          onClick={() => this.toggle()}
+        >
+          Add
+        </MDBBtn>
+    }
+  
       return (
         <>
-          { this.button }
+          { button }
           <MDBModal isOpen={this.state.modal} toggle={() => this.toggle()} centered>
             <MDBModalHeader toggle={() => this.toggle()}>Upload</MDBModalHeader>
             <MDBModalBody>

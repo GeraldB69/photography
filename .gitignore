@@ -5,4 +5,4 @@ back/helpers/config.js
 
 # FRONT
 front/node_modules/
-front/helpers/config.js
+front/src/helpers/config.json

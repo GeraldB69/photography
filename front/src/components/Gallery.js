@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Tags from './Tags';
 import Add from './Add';
 import Image from './Image';
+import server from '../helpers/config';
 
 
 class Gallery extends Component {
@@ -10,8 +12,17 @@ class Gallery extends Component {
     super(props)
     this.state = {
       username: null,
-      token: null
+      token: null,
+      images: []
     }
+  }
+
+  AllImages = () => {
+    axios.get(`${server.server}/gallery`)
+      .then(response => {
+        this.setState({ images: response.data})
+        console.log(response.data)
+      })
   }
 
   componentDidMount() {
@@ -19,39 +30,27 @@ class Gallery extends Component {
     const username = token ? localStorage.getItem('name') : '';
     if (token) this.setState({ username, token });
     // checktoken en BDD à faire
+    this.AllImages();
   }
 
   render() {
     return (
       <MDBContainer className="p-5">
-        <h3>Gallerie</h3>
+        <h3>Galerie</h3>
         { (this.state.username) && <Add /> }
         <MDBRow>
           <Tags />
         </MDBRow>
         <MDBRow>
-          <MDBCol lg="4" md="12" className="mb-4">
-            <Image name="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" />
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3" alt="" />
-          </MDBCol>
-          <MDBCol lg="4" md="6" className="mb-4">
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3"
-              alt="" />
-          </MDBCol>
-          <MDBCol lg="4" md="6" className="mb-4">
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3" alt="" />
-          </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          <MDBCol lg="4" md="12" className="mb-4">
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3" alt="" />
-          </MDBCol>
-          <MDBCol lg="4" md="6" className="mb-4">
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3" alt="" />
-          </MDBCol>
-          <MDBCol lg="4" md="6" className="mb-4">
-            <img src="https://mdbootstrap.com/img/Others/documentation/img%20(55)-mini.jpg" className="img-fluid z-depth-3" alt="" />
-          </MDBCol>
+          { 
+              (this.state.images) && this.state.images.map((item, i) => (
+                <MDBCol key={`img-${i}`} lg="4" md="12" className="mb-2">
+                  <Image 
+                   file={item.name} 
+                  />
+                </MDBCol>
+              ))
+          }
         </MDBRow>
       </MDBContainer>
     )
