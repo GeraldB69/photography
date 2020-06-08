@@ -16,7 +16,10 @@
     "express-fileupload": "^1.1.6",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
-    "morgan": "^1.9.1",
-    "nodemon": "^2.0.2"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.1.3"
   }
 }
