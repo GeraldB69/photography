@@ -94,8 +94,7 @@ class App extends Component {
               </div>
             </form>          
           </MDBModalBody>
-          <MDBModalFooter>
-          </MDBModalFooter>
+          <MDBModalFooter></MDBModalFooter>
         </MDBModal>
             <Home />
           </Route>
