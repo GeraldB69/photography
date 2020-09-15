@@ -3,18 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hapi/hoek": "^9.1.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/user-event": "^12.1.5",
     "axios": "^0.19.2",
-    "http-proxy": "1.18.1",
+    "dot-prop": "^5.3.0",
+    "http-proxy": "^1.18.1",
     "mdbreact": "^4.27.0",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "sass-loader": "^10.0.2",
+    "serialize-javascript": "^5.0.1",
     "typescript": "^3.9.7",
-    "user-event": "^4.0.0"
+    "user-event": "^4.0.0",
+    "webpack": "^4.44.1"
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
