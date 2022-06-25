@@ -17,7 +17,7 @@
     "http-proxy": "^1.18.1",
     "loglevel": "^1.7.0",
     "mdbreact": "^4.27.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "node-forge": "^0.10.0",
     "picomatch": "^2.2.2",
     "react": "^16.13.1",
